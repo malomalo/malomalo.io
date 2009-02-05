@@ -1,0 +1,5 @@
+title: malomalo
+markdown: rdiscount
+layout: application
+pygments: true
+paginate: 1

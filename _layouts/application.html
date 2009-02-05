@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<div id="sidebar">
+  <span id="all_posts"><a href="/posts.html">(All Posts)</a></span>
+  <h2>Recent</h2>
+  <ul>
+  	{% for post in site.posts limit:10 %}
+  	<li><a href='{{ post.url }}'>{{ post.title }}</a></li>
+  	{% endfor %}
+  </ul>
+</div>
+
+{{ content }}
