@@ -1,0 +1,18 @@
+---
+title: Sample Post
+author: Jonathan Bracy
+layout: post
+tags:
+  - Sample
+---
+
+This is a sample post
+
+{% highlight ruby linenos %}
+def foo
+  puts 'foo'
+end
+{% endhighlight %}
+{% highlight ruby %}
+config.gem 'facets', :version => '=2.5.2', :lib => 'facets/kernel/ergo'
+{% endhighlight %}
