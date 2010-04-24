@@ -9,7 +9,7 @@ title: home
   {% for post in site.posts %}
     {% capture current_month %}{{post.date | date: "%b %Y"}}{% endcapture %}
     {% if month != current_month %}
-      <h3 style="text-align:center; margin-top:15px;">{{ current_month }}</h3>
+      <h2 style="text-align:center; margin-top:15px;">{{ current_month }}</h2>
       {% assign month = current_month %}
     {% endif %}
     <li>

@@ -5,9 +5,8 @@ layout: application
 {% for post in paginator.posts %}
 <div class="post">
 	<h1><a href='{{ post.url }}'>{{ post.title }}</a></h1>
-	{{ post.tags | array_to_sentence_string }} | <a href='{{ post.url }}#disqus_thread'>Comments</a>
-	
-	{{ post.content }}
+	<p class="meta">{{ post.tags | array_to_sentence_string }} | <a href='{{ post.url }}#disqus_thread'>Comments</a></p>	
+	{{ post.excerpt }}
 </div>
 {% endfor %}
 
@@ -23,5 +22,5 @@ layout: application
   		<a href="/page{{ paginator.previous_page }}/">Next</a>
   	{% endif %}
   </span>
-  <span id="copyright">Copyright &copy; 2010 Jonathan R. Bracy</span>
+  <span id="copyright">Copyright &copy; 2010 Jonathan Bracy</span>
 </div>
