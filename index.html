@@ -5,8 +5,10 @@ layout: application
 {% for post in paginator.posts %}
 <div class="post">
 	<h1><a href='{{ post.url }}'>{{ post.title }}</a></h1>
-	<p class="meta">{{ post.tags | array_to_sentence_string }} | <a href='{{ post.url }}#disqus_thread'>Comments</a></p>	
+	<p class="meta">{{ post.tags | array_to_sentence_string }} | {{ post.date | date: "%h %d, %Y" }}</p>	
+	<blockquote>
 	{{ post.excerpt }}
+	</blockquote>
 </div>
 {% endfor %}
 
@@ -19,8 +21,7 @@ layout: application
   	{% if paginator.previous_page == 1 %}
   		<a href="/">Next</a>
   	{% elsif paginator.page != 1 %}
-  		<a href="/page{{ paginator.previous_page }}/">Next</a>
+  		<a href="/page{{ paginator.previous_page }}/">Next &rarr;</a>
   	{% endif %}
   </span>
-  <span id="copyright">Copyright &copy; 2010 Jonathan Bracy</span>
 </div>

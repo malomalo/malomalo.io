@@ -1,15 +1,47 @@
----
-layout: default
----
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <title>{{ site.title }} - {{ page.title }}</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width">
 
-<div id="sidebar">
-  <span id="all_posts"><a href="/posts.html">(All Posts)</a></span>
-  <h2>Recent</h2>
-  <ul>
-  	{% for post in site.posts limit:10 %}
-  	  <li><a href='{{ post.url }}'>{{ post.title }}</a></li>
-  	{% endfor %}
-  </ul>
-</div>
+            <link rel="stylesheet" href="/stylesheets/application.css" type="text/css">
+            <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 
-{{ content }}
+            <script src="javascripts/modernizr.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="milkcarton">
+                <img class="logo" width="30" height="30" src="//secure.gravatar.com/avatar/c1785f580a1c2da1188d3e4f00950073?s=30">
+                <ul>
+                    <li><a href="/">malomalo</a></li>
+                </ul>
+                <ul>
+                    <li><a href="https://www.facebook.com/jonathanbracy"><img width="20" height="20" src="/images/facebook.png"></a></li>
+                    <li><a href="http://www.linkedin.com/profile/view?id=43839754"><img width="20" height="20"  src="/images/linkedin.png"></a></li>
+                    <li><a href="https://twitter.com/jonbracy"><img width="20" height="20"  src="/images/twitter.png"></a></li>
+                    <li><a href="https://github.com/malomalo"><img width="20" height="20"  src="/images/github.png"></a></li>
+                </ul>
+            </div>
+        </header>
+        
+        <div id="content" class="milkcarton">
+
+            <!-- <div id="header">
+                <span class="links">
+                    <a href="http://github.com/malomalo">Github &rarr;</a>
+                </span>
+            </div> -->
+
+            {{ content }}
+        </div>
+        
+        <footer class="milkcarton">
+            Copyright &copy; {{ site.time | date: '%Y' }} Jonathan Bracy
+        </footer>
+        
+    </body>
+</html>
