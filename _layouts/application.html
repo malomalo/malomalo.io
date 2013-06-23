@@ -1,47 +1,32 @@
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-            <title>{{ site.title }} - {{ page.title }}</title>
-            <meta name="description" content="">
-            <meta name="viewport" content="width=device-width">
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{{ site.title }} - {{ page.title }}</title>
+	<meta name="author" content="Jon Bracy">
+	<meta name="description" content="The blog of Jon Bracy (malomalo).">
 
-            <link rel="stylesheet" href="/stylesheets/application.css" type="text/css">
-            <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
-
-            <script src="javascripts/modernizr.js"></script>
-    </head>
-    <body>
-        <header>
-            <div class="milkcarton">
-                <img class="logo" width="30" height="30" src="//secure.gravatar.com/avatar/c1785f580a1c2da1188d3e4f00950073?s=30">
-                <ul>
-                    <li><a href="/">malomalo</a></li>
-                </ul>
-                <ul>
-                    <li><a href="https://www.facebook.com/jonathanbracy"><img width="20" height="20" src="/images/facebook.png"></a></li>
-                    <li><a href="http://www.linkedin.com/profile/view?id=43839754"><img width="20" height="20"  src="/images/linkedin.png"></a></li>
-                    <li><a href="https://twitter.com/jonbracy"><img width="20" height="20"  src="/images/twitter.png"></a></li>
-                    <li><a href="https://github.com/malomalo"><img width="20" height="20"  src="/images/github.png"></a></li>
-                </ul>
-            </div>
-        </header>
+	<link rel="stylesheet" href="/stylesheets/application.css" type="text/css">
+  	<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+</head>
+<body>
+	<header>
+		<h1>
+			<a href="/">
+			<img width="40" height="40" src="//secure.gravatar.com/avatar/c1785f580a1c2da1188d3e4f00950073?s=40">
+			malomalo</a>
+		</h1>
+	</header>
+	
+	<div id="content">
+		{{ content }}
+	</div>
         
-        <div id="content" class="milkcarton">
-
-            <!-- <div id="header">
-                <span class="links">
-                    <a href="http://github.com/malomalo">Github &rarr;</a>
-                </span>
-            </div> -->
-
-            {{ content }}
-        </div>
-        
-        <footer class="milkcarton">
-            Copyright &copy; {{ site.time | date: '%Y' }} Jonathan Bracy
-        </footer>
-        
-    </body>
+	<footer>
+		<a href="/archive">Blog Archive</a><br />
+		<a href="https://twitter.com/jonbracy">Twitter</a> | <a href="https://www.facebook.com/jonathanbracy">Facebook</a> | <a href="https://github.com/malomalo">Github</a><br />
+		Copyright &copy; {{ site.time | date: '%Y' }} Jonathan Bracy
+	</footer>    
+</body>
 </html>

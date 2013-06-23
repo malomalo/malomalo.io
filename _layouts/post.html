@@ -1,11 +1,10 @@
 ---
 layout: application
 ---
-<div class="post">
-	<h1><a href='{{ post.url }}'>{{ page.title }}</a></h1>
-	<p class="meta">{{ page.tags | array_to_sentence_string }} | {{ page.date | date: "%h %d, %Y" }}</p>
-	
-	<div class="body">
-	    {{ content }}
-	</div>
-</div>
+
+<article>
+	<h1><a href='{{ page.url }}'>{{ page.title }}</a></h1>
+	<p class="meta">Posted {{ page.date | date: "%h %d, %Y" }}</p>
+
+    {{ content }}
+</article>

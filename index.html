@@ -3,25 +3,10 @@ layout: application
 ---
 
 {% for post in paginator.posts %}
-<div class="post">
-	<h1><a href='{{ post.url }}'>{{ post.title }}</a></h1>
-	<p class="meta">{{ post.tags | array_to_sentence_string }} | {{ post.date | date: "%h %d, %Y" }}</p>	
-	<blockquote>
-	{{ post.excerpt }}
-	</blockquote>
-</div>
+    <article>
+		<h1><a href='{{ post.url }}'>{{ post.title }}</a></h1>
+		<p class="meta">Posted {{ post.date | date: "%h %d, %Y" }}</p>
+  
+        {{ post.content }}
+    </article>
 {% endfor %}
-
-<div id="footer">
-  <span id="navigation">
-  	{% if paginator.page != paginator.total_pages %}
-  		<a href="/page{{ paginator.next_page }}/">Previous</a>
-  	{% endif %}
-
-  	{% if paginator.previous_page == 1 %}
-  		<a href="/">Next</a>
-  	{% elsif paginator.page != 1 %}
-  		<a href="/page{{ paginator.previous_page }}/">Next &rarr;</a>
-  	{% endif %}
-  </span>
-</div>

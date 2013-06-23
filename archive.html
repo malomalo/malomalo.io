@@ -1,20 +1,24 @@
 ---
 layout: application
-title: home
+title: Archive
 ---
 
-<ul class="posts">
+<div class="posts">
   {% assign month = 'nil' %}
   
   {% for post in site.posts %}
-    {% capture current_month %}{{post.date | date: "%b %Y"}}{% endcapture %}
+    {% capture current_month %}{{post.date | date: "%B %Y"}}{% endcapture %}
     {% if month != current_month %}
-      <h2 style="text-align:center; margin-top:15px;">{{ current_month }}</h2>
+	  {% if month != 'nil' %}
+      </ul>
+      {% endif %}
+      <h1>{{ current_month }}</h1>
+	  <ul>
       {% assign month = current_month %}
     {% endif %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
     </li>
-    
   {% endfor %}
-</ul>
+  </ul>
+</div>

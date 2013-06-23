@@ -2,13 +2,6 @@
 title: Creating an Arch Linux AMI
 author: Jonathan Bracy
 layout: post
-tags:
-  - Arch Linux
-  - EC2
-excerpt:
-  The following instructions will cover how to create an Arch Linux EC2 AMI from
-  scratch. This tutorial assumes that you have an Amazon EC2 account, and the EC2
-  tools installed.
 ---
 
 The following instructions will cover how to create an Arch Linux EC2 AMI from

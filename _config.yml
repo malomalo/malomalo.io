@@ -1,5 +1,9 @@
 title: malomalo
-markdown: rdiscount
+author: Jon Bracy
 layout: application
 pygments: true
+markdown: redcarpet
+redcarpet:
+  extensions: ['tables']
 paginate: 1
+exclude: ['Gemfile', 'Gemfile.lock']

@@ -1,93 +1,82 @@
 * { margin: 0; padding: 0; }
-html {overflow-y:scroll;}
-html, body { background: #fff; height: 100%;margin: 0; padding: 0; font-size:14px; line-height:1.5; font-family: arial,helvetica,freesans,clean,sans-serif;}
+html { overflow-y:scroll; }
+html, body {
+	background: #fff;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-size:14px;
+	line-height:1.5;
+	font-family: arial,helvetica,freesans,clean,sans-serif;
+	color: #000;
+}
 img { border:0; }
 a { text-decoration: none; }
-a:link, a:visited { color: #3B4C74; } /*#40AD14*/
-a:hover { color:#40AD14;; text-decoration:none; } /*#35D726*/
+a:link, a:visited { color: #80D62E; } /*#40AD14*/
+a:hover { text-decoration:underline; } /*#35D726*/
 
-.milkcarton {
-	width:700px;
-	margin: 0 auto;
+body {
+	border-top: 6px solid #80D62E;
+	padding: 20px 30px 30px 30px;
 }
 
 header {
-    text-shadow: 0 1px 0 white;
-    background-color: #F3F3F3;
-    background-image: -moz-linear-gradient(#F9F9F9, #F3F3F3);
-    background-image: -webkit-linear-gradient(#F9F9F9, #F3F3F3);
-    background-image: linear-gradient(#F9F9F9, #F3F3F3);
-    background-repeat: repeat-x;
-    border-bottom: 1px solid #E5E5E5;
-    height:30px;
-    padding:5px;
-    font-size:20px;
+	max-width: 640px;
+	margin: 0 auto;
 }
-header a {
-    font-weight:bold;
-    color: #263961;
-    -webkit-transition: color 0.3s ease;
-    -moz-transition: color 0.3s ease;
-    -o-transition: color 0.3s ease;
-    transition: color 0.3s ease;
+
+header h1 {
+	height:40px;
+	font-weight: bold;
+	font-size: 24px;
 }
-header img.logo {
-    float:left;
-    margin-right:10px;
-    border-radius:15px;
+header h1 a:hover {
+	text-decoration: none;
 }
-header ul:first-of-type {
-    float:left;
-}
-header ul:last-of-type {
-    padding-top:6px;
-    font-size:15px;
-    float:right;
-}
-header ul li {
-    display:inline;
-    list-style:none;
+header h1 a img {
+	width: 40px;
+	height: 40px;
+	vertical-align: middle;
+  border-radius:20px;	
+	border: 1px solid #808080;
 }
 
 footer {
-    color: #86939C;
+    color: #999;
     text-align:center;
     padding:10px 0 30px 0;
 }
+footer a, footer a:link, footer a:visited {
+		color: #555;
+}
 
-blockquote {
+#content {
+		max-width: 640px;
+		margin: 20px auto 40px auto;
+}
+
+article h1 {
+  font-size: 32px;
+  font-weight: normal;
+  padding: 0;
+  color: #80D62E;
+}
+article h1 a:hover {
+	text-decoration: none;
+}
+article .meta {
+	color: #999;
+}
+
+
+article blockquote {
     border-left: 7px solid #DADDE4;
     margin: 0em 0em 1.5em;
     padding: 0.5em 1.5em;
     font-size: 0.9em;
 }
-#content {
-    margin-top:20px;
-}
-#content .meta {
-    font-style:italic;
-}
-#content .body {
-    margin-top:20px;
-}
-#content .body a {
-    color: #40AD14; 
-}
-#content .body a:hover {
-text-decoration:underline;
-}
 
-#content h1, #content h1 a {
-  font-size: 28px;
-  font-weight: normal;
-  padding: 0;
-  letter-spacing: -1px;
-  color: #263961;
-}
-#content h1 a:hover {
-	text-decoration:none;
-}
-#content h1 code, #content h2 code {
+article h1 code, article h2 code {
   padding:0 !important;
   background:#fff !important;
   border:none !important;
@@ -95,14 +84,14 @@ text-decoration:underline;
   font-size: 14px !important;
 }
 
-#content h2 {
+article h2 {
   font-size: 18px;
   font-weight: normal;
   padding: 5px 0 10px 0;
   letter-spacing: -1px;
 }
 
-#content h3 {
+article h3 {
   color: #006897;
   font-size: 16px;
   font-weight: normal;
@@ -110,38 +99,48 @@ text-decoration:underline;
   letter-spacing: -1px;
 }
 
-#content p {
+article p {
   margin: 0 0 10px 0;
 }
 
-#content ul, #content ol {
+article ul, article ol {
   padding: 0 0 10px 20px;
 }
 
-#content li {
+article li {
   font-size: 13px;
   line-height: 20px;
 }
 
-#content ul li {
+article ul li {
   list-style-type: none;
   margin-bottom:10px;
 }
 
-#content ol li {
+article ol li {
   margin-bottom:5px;
 }
 
-#content ol li ul {
+article ol li ul {
   padding-bottom:0;
   margin-bottom:0;
 }
 
-#content ol li ul li {
+article ol li ul li {
   list-style-type: disc;
 }
 
-#content ul.posts li {
-	text-align:center;
-	margin: 0 auto;
+.posts h1 {
+	font-size: 22px;
+	color: #80D62E;
+	margin-bottom: 5px;
+	font-weight: normal;
+}
+.posts ul li {
+	list-style:none;
+	font-size: 16px;
+}
+.posts a {
+	color: #000;
+	text-decoration:none;
 }
