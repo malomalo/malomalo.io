@@ -10,6 +10,10 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md,mdown"
 # Build settings
 markdown: kramdown
 
+collections:
+  recipes:
+    output: true
+
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -25,8 +29,12 @@ assets:
     - _lib/stylesheets
     
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
     values:
       layout: "application"
+  - scope:
+      path: ""
+      type: recipes
+    values:
+      layout: "recipe"

@@ -5,7 +5,7 @@ Bundler.require(:default)
 module Jekyll
   module Utils
     def self.has_yaml_header?(file)
-      if File.basename(file).end_with?('.mdown')
+      if file =~ /\/_recipes\/.+/i
         true
       else
         !!(File.open(file, 'rb') { |f| f.read(5) } =~ /\A---\r?\n/)
@@ -13,27 +13,35 @@ module Jekyll
     end
   end
   
-  class Page
+  class Document
     
-    attr_accessor :main
+    ATTRIBUTES_FOR_LIQUID = ['title']
+    
+    attr_accessor :date
     
     def data
-      if name.end_with?('.mdown')
-        @data ||= {}
-        @data['title'] = basename.split('-').map(&:capitalize).join(' ')
-        @data['layout'] = 'recipe'
-        @data['recipe'] = true
+      @data ||= {}
+      
+      if @collection.label == 'recipes'
+        @data['title'] = File.basename(@path, @extname).split('-').map(&:capitalize).join(' ')
+        @date ||= Utils.parse_date(`git log --format=%aD --follow -- #{relative_path[1..-1]} | tail -n 1`)
+        @data['date'] = @date
+      else
       end
-      @data
-    end
-    
-    def recipe
-      !!@data['recipe']
+      
+      @data ||= Hash.new
     end
   end
   
 end
 
-Jekyll::Page::ATTRIBUTES_FOR_LIQUID << 'recipe' << 'main'
 
-# g log --format=%aD --follow -- taco-soup.mdown
+module Jekyll
+  module AssetFilter
+    def concat(input, array)
+      input.to_a.concat(array)
+    end
+  end
+end
+
+Liquid::Template.register_filter(Jekyll::AssetFilter)

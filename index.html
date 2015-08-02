@@ -18,8 +18,9 @@ layout: application
         <a href="/tos">recipes</a>
     </nav>
     
-    
-    {% for post in site.posts %}
+    {% assign datas = site.posts | concat:site.recipes | sort | reverse %}
+
+    {% for post in datas limit:5 %}
         {% capture current_month %}{{post.date | date: "%B %Y"}}{% endcapture %}
         {% if month != current_month %}
             {% if month != 'nil' %}

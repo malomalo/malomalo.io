@@ -8,12 +8,8 @@ layout: application
     <h2>A Collection of Recipes from the Bracy family and friends.</h2>
 
     <ul>
-        {% for page in (site.pages | sort: 'title') %}
-
-            {% if page.recipe %}
-                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-            {% endif %}
-    
+        {% for recipe in (site.recipes | sort: 'title') %}
+            <li><a href="{{ recipe.url }}">{{ recipe.title }}</a></li>
         {% endfor %}
     </ul>
     
