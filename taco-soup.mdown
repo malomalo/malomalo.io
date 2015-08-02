@@ -1,0 +1,26 @@
+Taco Soup
+=========
+
+Ingredients:
+------------
+
+- 1 pound of Ground Beef
+- 1/2 an onion
+- 1 package of taco seasoning
+- 1 package of Ranch dressing mix
+- 2 cans of stewed tomatoes
+- 1 small can of tomato sauce
+- 1 can of Rotel
+- 1 can of corn
+- 1 cans of pinto or black beans
+
+Preparation:
+------------
+
+Chop the onion and brown the beef and onions together. Drain, then add taco
+and ranch dressing mix. Squish or chop the tomatoes. Pour all the cans in.
+Simmer for 30+ minutes.
+
+Serves 6 to 8.
+
+[source]: Emily Ehmke
