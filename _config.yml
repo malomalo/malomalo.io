@@ -1,9 +1,32 @@
-title: malomalo
-author: Jon Bracy
-layout: application
-pygments: true
-markdown: redcarpet
-redcarpet:
-  extensions: ['tables']
-paginate: 1
-exclude: ['Gemfile', 'Gemfile.lock']
+title: Bracy Recipes
+email: jonbracy@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  A Collection of Recipes from the Bracy family and friends.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://recipes.malomalo.io"
+github_username: malomalo
+markdown_ext: "markdown,mkdown,mkdn,mkd,md,mdown"
+
+# Build settings
+markdown: kramdown
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+
+assets:
+  sources:
+    - _assets/fonts
+    - _assets/images
+    - _assets/javascripts
+    - _assets/stylesheets
+    - _lib/javascripts
+    - _lib/stylesheets
+    
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "application"

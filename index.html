@@ -1,12 +1,39 @@
 ---
 layout: application
 ---
+<main class="blog">
 
-{% for post in paginator.posts %}
-    <article>
-		<h1><a href='{{ post.url }}'>{{ post.title }}</a></h1>
-		<p class="meta">Posted {{ post.date | date: "%h %d, %Y" }}</p>
-  
-        {{ post.content }}
-    </article>
-{% endfor %}
+    {% image sloth.jpg [resize:40x40, autosize] %}
+    
+    <h1>
+        malomalo
+    </h1>
+    
+    
+    <nav>
+        <a href="/tos">blog</a>
+        •
+        <a href="/tos">projects</a>
+        •
+        <a href="/tos">recipes</a>
+    </nav>
+    
+    
+    {% for post in site.posts %}
+        {% capture current_month %}{{post.date | date: "%B %Y"}}{% endcapture %}
+        {% if month != current_month %}
+            {% if month != 'nil' %}
+            </ul>
+            {% endif %}
+            
+            <h2>{{ current_month }}</h2>
+            <ul>
+            {% assign month = current_month %}
+        {% endif %}
+                <li>
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                </li>
+    {% endfor %}
+            </ul>
+
+</main>

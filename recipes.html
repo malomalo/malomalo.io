@@ -1,0 +1,20 @@
+---
+layout: application
+---
+<main class="recipes">
+    
+    <h1>Recipes</h1>
+
+    <h2>A Collection of Recipes from the Bracy family and friends.</h2>
+
+    <ul>
+        {% for page in (site.pages | sort: 'title') %}
+
+            {% if page.recipe %}
+                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% endif %}
+    
+        {% endfor %}
+    </ul>
+    
+</main>

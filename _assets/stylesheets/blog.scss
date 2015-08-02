@@ -1,0 +1,35 @@
+main.blog {
+  
+  h1 {
+    color: $green;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  
+  h2 {
+    color: $green;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 16px;
+  }
+  
+  img {
+    display:block;
+    margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    border-radius: 20px;
+    border: 1px solid #808080;
+  }
+  
+  ul {
+    list-style:none;
+    padding-left: 0;
+    li {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+  
+}

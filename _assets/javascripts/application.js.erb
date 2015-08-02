@@ -1,0 +1,93 @@
+//= require lunr
+//
+//= require setup
+//
+//= require_tree ./templates
+
+recipes = <%=
+    (Dir['*.mdown'].map do |recipe|
+        {
+            url: "/#{File.basename(recipe, '.mdown')}.html",
+            title: "#{File.basename(recipe, '.mdown').split('-').map(&:capitalize).join(' ')}",
+            body: "#{File.read(recipe).gsub('\"', '\\\"')}"
+        }
+    end).to_json
+%>
+
+lr = lunr.Index.load(
+<%= 
+    recipes = Dir['*.mdown'].each_with_index.map do |recipe, i|
+        {
+            id: i,
+            title: "#{File.basename(recipe, '.mdown').split('-').map(&:capitalize).join(' ')}",
+            body: "#{File.read(recipe).gsub('\"', '\\\"')}"
+        }
+    end
+
+    lunr = File.expand_path('../../../_lib/javascripts/lunr.js', __FILE__)
+    context = ExecJS.compile(File.read(lunr))
+    context.eval(<<-JS)
+        (function() {
+            var recipes = #{recipes.to_json}
+            var index = lunr(function () {
+                this.field('title', {boost: 10});
+                this.field('body');
+                this.ref('id');
+            });
+            
+            for(var i = 0; i < recipes.length; i++) {
+                index.add(recipes[i]);
+            }
+            
+            return JSON.stringify(index);
+        })()
+    JS
+%>
+);
+
+function render(template, locals) {
+    return templates[template](locals);
+}
+
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(function () {
+    var autocompleteView;
+    var searchInput = document.querySelector('input[type=search]');
+    
+    searchInput.addEventListener('keyup', function (e) {
+        var searchValue = searchInput.value.trim();
+        
+        if (searchValue === "") {
+            autocompleteView.parentNode.removeChild(autocompleteView);
+            autocompleteView = undefined;
+        } else {
+            results = lr.search(searchValue).map(function(sv) {
+                return recipes[parseInt(sv.ref)];
+            });
+            
+            if (autocompleteView) {
+                autocompleteView.children[0].innerHTML = render('autocomplete/results', {results: results});
+            } else if (results.length > 0) {
+                var box = searchInput.getBoundingClientRect();
+                
+                autocompleteView = document.createElement('div');
+                autocompleteView.className = 'autocomplete-container';
+                autocompleteView.style.top = box.top + 1 + box.height + 'px';
+                autocompleteView.innerHTML = render('autocomplete', {results: results});
+                autocompleteView.children[0].style.left = box.left + 'px';
+                autocompleteView.children[0].style.width = box.width + 'px';
+                autocompleteView.children[0].style.paddingLeft = window.getComputedStyle(searchInput, null).getPropertyValue('padding-left');
+                
+                document.body.appendChild(autocompleteView);
+            }
+
+        }
+    });
+})
