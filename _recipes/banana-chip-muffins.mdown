@@ -1,8 +1,6 @@
 Banana Chip Muffins
 ===================
 
-Yield: 18 muffins
-
 Ingredients:
 ------------
 
@@ -24,4 +22,11 @@ Beat egg, oil, & sugar until smooth. Stir in bananas. Combine dry ingredients
 and stir into the banana mixture, just until moistened. Stir in chocolate
 chips. Fill greased muffin cups 3/4 full. Bake 275F for 20 minutes.
 
-[source]: Mom
+Yield:
+------
+
+18 muffins.
+
+Source:
+-------
+Mom

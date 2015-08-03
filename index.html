@@ -20,7 +20,7 @@ layout: application
     
     {% assign datas = site.posts | concat:site.recipes | sort | reverse %}
 
-    {% for post in datas limit:5 %}
+    {% for post in datas limit:10 %}
         {% capture current_month %}{{post.date | date: "%B %Y"}}{% endcapture %}
         {% if month != current_month %}
             {% if month != 'nil' %}

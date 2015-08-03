@@ -1,9 +1,13 @@
 Wassail
 =======
 
-Prep Time: 15 Minutes
+Prep Time
+---------
+15 Minutes
 
-Cook Time: 3 Hours
+Cook Time
+---------
+3 Hours
 
 Ingredients:
 ------------
@@ -34,4 +38,6 @@ plenty. Finally, snap the cinnamon sticks in half and add those as well.
 Cover your pot and allow to simmer 2 - 4 hours on low heat. About half
 an hour prior to serving, add the brandy if you choose to use it.
 
-[source]: Ben Ehmke
+Source:
+-------
+Ben Ehmke

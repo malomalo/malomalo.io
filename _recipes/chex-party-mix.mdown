@@ -1,8 +1,6 @@
 Chex Party Mix
 ==============
 
-Makes 12 cups
-
 Ingredients:
 ------------
 
@@ -32,4 +30,11 @@ In large microwaveable bowl, melt butter uncovered on high. Stir in seasonings,
 gradually stir in remaining ingredients until evenly coated. Microwave
 uncovered on high for 5 to 6 minutes, thoroughly stirring every 2 minutes.
 
-[source]: Mom
+Yield:
+------
+
+12 cups.
+
+Source:
+-------
+Mom

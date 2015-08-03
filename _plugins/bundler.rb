@@ -24,7 +24,7 @@ module Jekyll
       
       if @collection.label == 'recipes'
         @data['title'] = File.basename(@path, @extname).split('-').map(&:capitalize).join(' ')
-        @date ||= Utils.parse_date(`git log --format=%aD --follow -- #{relative_path[1..-1]} | tail -n 1`)
+        @date ||= Utils.parse_date(`git log --format=%aD --follow -- #{relative_path} | tail -n 1`)
         @data['date'] = @date
       else
       end

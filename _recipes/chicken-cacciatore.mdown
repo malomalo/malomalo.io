@@ -1,8 +1,6 @@
 Chicken Cacciatore
 ==================
 
-Yield: Serves 6
-
 Ingredients:
 ------------
 
@@ -29,4 +27,11 @@ for 15 minutes. Cook noodles according to pkg. directions. Place noodles &
 chicken mix in 13x9x2 baking dish. Sprinkle with Parmesan cheese. Bake at 350F
 for 35 minutes.
 
-[source]: Mom
+Yield:
+------
+
+6 servings.
+
+Source:
+-------
+Mom

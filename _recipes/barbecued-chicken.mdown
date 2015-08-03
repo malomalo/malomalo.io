@@ -1,8 +1,6 @@
 Barbecued Chicken
 =================
 
-Yield: Mixture will baste 5 lbs of chicken
-
 Ingredients:
 ------------
 
@@ -17,4 +15,11 @@ Preparation:
 Combine all ingredients in a saucepan. Bring to a boil. Baste each time
 chicken is turned until done.
 
-[source]: Grammy & Grampy Edgin
+Yield:
+------
+
+Mixture will baste 5 lbs of chicken.
+
+Source:
+-------
+Grammy & Grampy Edgin

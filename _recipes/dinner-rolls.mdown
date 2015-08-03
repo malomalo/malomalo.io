@@ -1,8 +1,6 @@
 Dinner Rolls
 ============
 
-Yield: 5 dozen
-
 Ingredients:
 ------------
 
@@ -37,4 +35,11 @@ Bake at 250F for 15-17 minutes or until golden brown.
 
 Brush with butter. Remove to wire racks.
 
-[source]: Mom
+Yield:
+------
+
+5 dozen rolls.
+
+Source:
+-------
+Mom
