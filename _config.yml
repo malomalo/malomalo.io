@@ -9,6 +9,7 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md,mdown"
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
 
 collections:
   recipes:
@@ -27,7 +28,10 @@ assets:
     - _assets/stylesheets
     - _lib/javascripts
     - _lib/stylesheets
-    
+
+kramdown:
+  input: GFM
+
 defaults:
   - scope:
       path: ""

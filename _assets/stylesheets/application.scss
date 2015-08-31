@@ -1,10 +1,9 @@
 @import "normalize";
 @import "bourbon";
 @import "config";
-
+@import "syntax";
 * {
   box-sizing: border-box;
-  font: 12px Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 body {
@@ -12,42 +11,30 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
+  font: 12px Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 a {
   color: $blue;
   text-decoration:none;
 }
+h1 > a {
+  color: $green;
+}
 
 @import "layout/header";
 
 main {
-  max-width: 980px;
+  min-height: 500px;
+  max-width: 960px;
   padding: 0 20px;
   margin: 0 auto;
-  padding-top: 60px;
-  
-  nav {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px 20px;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 20px;
-    border-bottom: 1px solid $light-gray;
-    
-    a {
-      padding-left: 5px;
-      padding-right: 5px;
-      color: #636363;
-      text-decoration: none;
-    }
-    
-  }
 }
 
+@import "index";
+@import "ramblings";
 @import "recipes";
-@import "blog";
+
 
 .autocomplete-container {
   width: 100%;
@@ -73,7 +60,7 @@ main {
 
 
 footer {
-  max-width: 980px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 20px 20px;
   border-top: 1px solid #F3F2EF;

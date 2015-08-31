@@ -13,6 +13,13 @@ module Jekyll
     end
   end
   
+  class Post
+    
+    def template
+      "/ramblings/:title/"
+    end
+  end
+  
   class Document
     
     ATTRIBUTES_FOR_LIQUID = ['title']
@@ -39,7 +46,7 @@ end
 module Jekyll
   module AssetFilter
     def concat(input, array)
-      input.to_a.concat(array)
+      input.to_a.dup.concat(array)
     end
   end
 end

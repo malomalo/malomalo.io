@@ -6,7 +6,7 @@
 }
 
 header {
-  max-width: 980px;
+  max-width: 960px;
   padding: 0 20px;
   margin: 0 auto;
   height: 40px;
@@ -16,7 +16,7 @@ header {
     float: left;
     height: 40px;
     line-height: 40px;
-    width: 180px;
+    width: 190px;
     font-size: 14px;
     
     a {
@@ -29,7 +29,7 @@ header {
   .search {
     float: left;
     vertical-align: middle;
-    width: calc(100% - 180px);
+    width: calc(100% - 190px);
     border-bottom: 1px solid $light-gray;
         
     svg {

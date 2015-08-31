@@ -1,0 +1,16 @@
+---
+layout: application
+title: Ramblings
+---
+
+<main class="ramblings">
+
+    <ul>
+        {% for post in site.posts %}
+            <li>
+                <a href="{{ post.url }}">{{ post.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+</main>

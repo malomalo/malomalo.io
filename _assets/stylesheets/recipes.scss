@@ -12,6 +12,8 @@ main.recipes {
     max-width: 450px;
     padding-bottom: 20px;
     margin-bottom: 40px;
+    font-size: 12px;
+    font-weight: normal;
   }
   
   a {
@@ -28,12 +30,13 @@ main.recipes {
 }
 
 main.recipe {
-  padding-top: 30px;
   
   h1{
     display:inline-block;
     border-bottom: 1px dashed $green;
     margin-bottom: 10px;
+    text-align:center;
+//    margin: 0 auto 10px auto;
   }
   h2 {
     font-size: 14px;

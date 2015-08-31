@@ -1,10 +1,11 @@
-{% assign index_name = page.path | split:"/" | first | remove:'.html' %}
+{% assign index_name = page.url | replace_first:'/','' | split:"/" | first | remove:'.html' %}
 <!DOCTYPE html>
 <html>
 
     <head>
         <meta charset="utf-8">
         <title>{% if page.title %}{{ page.title | strip_newlines }}{% else %}{{ site.title | strip_newlines }}{% endif %}</title>
+        <meta name="author" content="Jon Bracy">
         <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description  | strip_newlines }}{% endif %}">
         <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
@@ -13,11 +14,10 @@
     </head>
 
     <body>
-
         <div class="header-container">
             <header>
                 <div class="title">
-                    <a href="http://malomalo.io/">malomalo.io</a>{% if index_name != 'index' %}/{{ index_name }}{% endif %}
+                    <a href="/">malomalo.io</a>{% if index_name != 'index' %}/{{ index_name }}{% endif %}
                 </div>
 
                 <div class="search">
@@ -29,22 +29,14 @@
         
         {{ content }}
 
-        {% if index_name != 'index' %}
-            <footer>
-                <a href="/tos">Terms of Service</a>
-                •
-                <a href="/privacy_policy">Privacy Policy</a>
-                •
-                <a href="mailto:support@runestonemetrics.com">Contact Us</a>
-                •
-                <a href="/docs">Docs</a>
-                •
-                <a href="/blog">Blog</a>
-            </footer>
-        {% endif %}
+        <footer>
+            <a href="https://github.com/malomalo">About</a>
+            •
+            <a href="mailto:jonbracy@gmail.com">jonbracy@gmail.com</a>
+            •
+            <a href="https://github.com/malomalo">@github</a>
+        </footer>
         
     </body>
 
 </html>
-
-
