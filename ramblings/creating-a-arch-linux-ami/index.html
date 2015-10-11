@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Creating an Arch Linux AMI</title>
+        <meta name="author" content="Jon Bracy">
+        <meta name="description" content="The following instructions will cover how to create an Arch Linux EC2 AMI fromscratch. This tutorial assumes that you have an Amazon EC2 account, and the EC2...">
+        <link rel="canonical" href="http://recipes.malomalo.io/ramblings/creating-a-arch-linux-ami/">
+
+        <link rel="stylesheet" href="/assets/application-0364d8f024433d75adf1ea7b8f84092c.css">
+        <script src="/assets/application-2e82f044a7ea28b89d056a52bdbb920b.js" async></script>
+    </head>
+
+    <body>
+        <div class="header-container">
+            <header>
+                <div class="title">
+                    <a href="/">malomalo.io</a>/ramblings
+                </div>
+
+                <div class="search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M23 36c-7.2 0-13-5.8-13-13s5.8-13 13-13 13 5.8 13 13-5.8 13-13 13zm0-24c-6.1 0-11 4.9-11 11s4.9 11 11 11 11-4.9 11-11-4.9-11-11-11z"/><path d="M32.682 31.267l8.98 8.98-1.414 1.414-8.98-8.98z"/></svg>
+                    <input type="search" onfocus="document.querySelector('header .search').style['border-bottom-color'] = '#94d31b'" onblur="document.querySelector('header .search').style['border-bottom-color'] = '#e5e9ec'">
+                </div>
+            </header>
+        </div>
+        
+        <main class="post">
+    <h1><a href='/ramblings/creating-a-arch-linux-ami/'>Creating an Arch Linux AMI</a></h1>
+    <p class="meta">Posted Apr 23, 2010</p>
+    <p>The following instructions will cover how to create an Arch Linux EC2 AMI from<br />
+scratch. This tutorial assumes that you have an Amazon EC2 account, and the EC2<br />
+tools installed.</p>
+
+<h2 id="boot-up-an-ubuntu-ami">Boot up an Ubuntu AMI</h2>
+<p>Depending on where and what type of EC2 instances you  will be running will<br />
+change which AMI you should use. I’m using <code>ami-55739e3c</code> because it’s located<br />
+in the <code>us-east-1</code> region and it’s a 64-bit image.</p>
+
+<p><a href="http://alestic.com/">alestic.com</a> contains of list of Ubuntu AMIs to use.</p>
+
+<p>If you plan to use 32-bit instances (<code>c1.medium</code> and <code>m1.small</code>) you will need<br />
+to create a 32-bit AMI. Choose a 32-bit Ubuntu AMI and in most of the examples<br />
+change <code>x86_64</code> to <code>i686</code>.</p>
+
+<p>64-bit AMIs will run on the following instance types: <code>m1.large</code>, <code>m1.xlarge</code>,<br />
+<code>c1.xlarge</code>, <code>m2.xlarge</code>, <code>m2.2xlarge</code>, and <code>m2.4xlarge</code></p>
+
+<p>It is possible to move your AMI to another region once it is built.</p>
+
+<h2 id="preparing-ubuntu">Preparing Ubuntu</h2>
+
+<p>Login as root on the Ubuntu AMI if you are not already:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo su</code></pre></div>
+
+<p>Enable multiverse in source.list</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sed -i <span class="s1">'s/karmic main universe/karmic main universe multiverse/'</span> /etc/apt/sources.list
+apt-get update</code></pre></div>
+
+<p>Install Pacman</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get install xz-utils --force-yes
+apt-get --yes install libssl-dev
+
+ln -s /usr/lib/libssl.so /usr/lib/libssl.so.1.0.0
+ln -s /usr/lib/libcrypto.so /usr/lib/libcrypto.so.1.0.0
+
+<span class="nb">cd</span> /
+wget ftp://ftp.archlinux.org/core/os/x86_64/libarchive-<span class="se">\*</span>.pkg.tar.<span class="k">*</span>
+wget ftp://ftp.archlinux.org/core/os/x86_64/libfetch-<span class="se">\*</span>.pkg.tar.<span class="k">*</span>
+wget ftp://ftp.archlinux.org/core/os/x86_64/pacman-<span class="se">\*</span>.pkg.tar.<span class="k">*</span>
+<span class="k">for </span>f <span class="k">in</span> /<span class="k">*</span>-<span class="k">*</span>.pkg.tar.<span class="k">*</span>
+<span class="k">do
+  </span>tar xzf <span class="nv">$f</span>
+<span class="k">done
+
+</span>cat &gt; /etc/pacman.d/mirrorlist <span class="sh">&lt;&lt;\EOF
+Server = http://schlunix.org/archlinux/$repo/os/x86_64
+Server = http://archlinux.umflint.edu/$repo/os/x86_64
+Server = http://mirror.twilightlair.net/arch/$repo/os/x86_64
+</span><span class="err">EOF</span></code></pre></div>
+
+<h2 id="prepare-the-arch-linux-chroot">Prepare the Arch Linux chroot</h2>
+
+<p>Create a partition to install Arch on:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get --yes install xfsprogs <span class="c"># to get xfs</span>
+
+mkdir /arch
+mkfs.xfs -f /dev/sdc
+mount /dev/sdc /arch</code></pre></div>
+
+<p>Install Arch on the new partition</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mkdir -p /arch/var/lib/pacman
+pacman --noconfirm -Sy -r /arch
+pacman --noconfirm -S base -r /arch</code></pre></div>
+
+<p>Prepare chroot</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mount /dev/ /arch/dev/ --bind
+mount /sys/ /arch/sys/ --bind
+mount /proc/ /arch/proc/ --bind
+
+cp /etc/resolv.conf /arch/etc/
+
+cp -R /lib/modules/2.6.31-302-ec2 /arch/lib/modules/</code></pre></div>
+
+<h2 id="enter-the-chroot-and-finish-the-install">Enter the chroot and finish the install</h2>
+
+<p>Enter chroot</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">chroot /arch</code></pre></div>
+
+<p>Setup locales</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">cat &gt;/etc/locale.gen <span class="sh">&lt;&lt;\EOF
+en_US.UTF-8 UTF-8  
+en_US ISO-8859-1
+EOF
+
+</span>locale-gen</code></pre></div>
+
+<p>Create fstab</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">cat &gt;/etc/fstab <span class="sh">&lt;&lt;\EOF
+# /etc/fstab: static file system information.
+# &lt;file system&gt;                         &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+proc                                    /proc           proc    defaults        0       0
+/dev/sda3                               None            swap    defaults        0       0
+/dev/sda1                               /               ext3    defaults        0       0
+/dev/sda2                               /mnt            ext3    defaults        0       0
+</span><span class="err">EOF</span></code></pre></div>
+
+<p>Uncomment all Arch Linux mirrors in your country.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">vi /etc/pacman.d/mirrorlist <span class="c"># uncoment mirrors in your country</span></code></pre></div>
+
+<p>At this point I recommend you rank your mirrors by speed. Information on how<br />
+to do this is located on the <a href="http://wiki.archlinux.org/index.php/Beginners%27_Guide#.2Fetc.2Fpacman.d.2Fmirrorlist">Arch Linux Wiki</a></p>
+
+<p>Install OpenSSH so we can SSH into our AMI</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">pacman --noconfirm -S openssh
+
+<span class="c"># add sshd in DAEMONS array</span>
+sed -i <span class="s1">'s/netfs crond)/netfs crond sshd)/'</span> /etc/rc.conf
+
+<span class="c"># enable remote access</span>
+cat &gt;/etc/hosts.allow <span class="sh">&lt;&lt;\EOF
+sshd: ALL: ALLOW
+</span><span class="err">EOF</span></code></pre></div>
+
+<p>On boot we need to grab the public key to allow ssh and run any user data if<br />
+available</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">pacman --noconfirm -S curl
+
+cat &gt;/etc/rc.local <span class="sh">&lt;&lt;\EOF
+mkdir -p /root/.ssh
+curl --retry 3 --retry-delay 5 --silent --fail -o /root/.ssh/authorized_keys http://169.254.169.254/1.0/meta-data/public-keys/0/openssh-key
+
+if curl --retry 3 --retry-delay 5 --silent --fail -o /root/user-data http://169.254.169.254/1.0/user-data; then
+   bash /root/user-data
+fi
+rm -f /root/user-data
+</span><span class="err">EOF</span></code></pre></div>
+
+<p>exit chroot</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">exit</span></code></pre></div>
+
+<h2 id="setup-ec2-tools">Setup EC2 Tools</h2>
+
+<p>Install EC2 tools and EC2-AMI tools</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get --yes install ec2-api-tools ec2-ami-tools
+
+<span class="c"># do some cleanup before rebundling</span>
+rm -f /arch/root/.<span class="k">*</span>hist<span class="k">*</span>
+rm -f /arch/var/log/<span class="k">*</span>.gz</code></pre></div>
+
+<p>Export security credentials</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">AMAZON_USER_ID</span><span class="o">=</span><span class="s1">'XXXXXXXXXXX'</span>
+<span class="nb">export </span><span class="nv">AMAZON_ACCESS_KEY_ID</span><span class="o">=</span><span class="s1">'XXXXXXXXXXXXXX'</span>
+<span class="nb">export </span><span class="nv">AMAZON_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s1">'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'</span>
+
+<span class="nb">export </span><span class="nv">RELEASE</span><span class="o">=</span><span class="sb">`</span>date <span class="s1">'+%Y%m%d%H%M%S'</span><span class="sb">`</span>
+
+<span class="c"># enter your s3 bucket here</span>
+<span class="nb">export </span><span class="nv">BUCKET</span><span class="o">=</span><span class="s2">"XXXXXXXXXXXXX"</span>
+
+<span class="nb">export </span><span class="nv">PREFIX</span><span class="o">=</span><span class="s2">"archlinux-x86_64-</span><span class="k">${</span><span class="nv">RELEASE</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="nb">export </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">"us-east-1"</span>
+
+cat &gt;/mnt/pk.pem <span class="sh">&lt;&lt;\EOF
+-----BEGIN PRIVATE KEY-----
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXX
+-----END PRIVATE KEY-----
+EOF
+
+</span>cat &gt;/mnt/cert.pem <span class="sh">&lt;&lt;\EOF
+-----BEGIN CERTIFICATE-----
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXX
+-----END CERTIFICATE-----
+EOF
+
+</span><span class="nb">export </span><span class="nv">EC2_PRIVATE_KEY</span><span class="o">=</span>/mnt/pk.pem
+<span class="nb">export </span><span class="nv">EC2_CERT</span><span class="o">=</span>/mnt/cert.pem</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ec2-bundle-vol <span class="se">\</span>
+-v /arch <span class="se">\</span>
+-r x86_64 <span class="se">\</span>
+-d /mnt <span class="se">\</span>
+-p <span class="k">${</span><span class="nv">PREFIX</span><span class="k">}</span> <span class="se">\</span>
+-u <span class="k">${</span><span class="nv">AMAZON_USER_ID</span><span class="k">}</span> <span class="se">\</span>
+-k <span class="k">${</span><span class="nv">EC2_PRIVATE_KEY</span><span class="k">}</span> <span class="se">\</span>
+-c <span class="k">${</span><span class="nv">EC2_CERT</span><span class="k">}</span> <span class="se">\</span>
+-s 10000 <span class="se">\</span>
+-e /mnt,/root
+
+ec2-upload-bundle <span class="se">\</span>
+-b <span class="k">${</span><span class="nv">BUCKET</span><span class="k">}</span> <span class="se">\</span>
+-m /mnt/<span class="k">${</span><span class="nv">PREFIX</span><span class="k">}</span>.manifest.xml <span class="se">\</span>
+-a <span class="k">${</span><span class="nv">AMAZON_ACCESS_KEY_ID</span><span class="k">}</span> <span class="se">\</span>
+-s <span class="k">${</span><span class="nv">AMAZON_SECRET_ACCESS_KEY</span><span class="k">}</span>
+
+ec2-register --region <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> -K <span class="k">${</span><span class="nv">EC2_PRIVATE_KEY</span><span class="k">}</span> -C <span class="k">${</span><span class="nv">EC2_CERT</span><span class="k">}</span> <span class="k">${</span><span class="nv">BUCKET</span><span class="k">}</span>/<span class="k">${</span><span class="nv">PREFIX</span><span class="k">}</span>.manifest.xml</code></pre></div>
+
+</main>
+
+        <footer>
+            <a href="/about">About</a>
+            •
+            <a href="mailto:jonbracy@gmail.com">jonbracy@gmail.com</a>
+            •
+            <a href="https://github.com/malomalo">@github</a>
+        </footer>
+        
+    </body>
+
+</html>
