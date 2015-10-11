@@ -1,5 +1,10 @@
 <ul>
     [[ results.forEach(function(result) { ]]
-        <li>[[= result.title ]]</li>
+        <a href="[[= result.url ]]">
+            <li>
+                <div class="type">R</div>
+                [[= result.title ]]
+            </li>
+        </a>
     [[ }) ]]
 </ul>

@@ -4,28 +4,23 @@
 //
 //= require_tree ./templates
 
-recipes = <%=
-    (Dir['*.mdown'].map do |recipe|
-        {
-            url: "/#{File.basename(recipe, '.mdown')}.html",
-            title: "#{File.basename(recipe, '.mdown').split('-').map(&:capitalize).join(' ')}",
-            body: "#{File.read(recipe).gsub('\"', '\\\"')}"
-        }
-    end).to_json
-%>
-
-lr = lunr.Index.load(
-<%= 
-    recipes = Dir['*.mdown'].each_with_index.map do |recipe, i|
+<% recipes = Dir['_recipes/*.mdown'].each_with_index.map do |recipe, i|
         {
             id: i,
+            url: "/recipes/#{File.basename(recipe, '.mdown')}.html",
             title: "#{File.basename(recipe, '.mdown').split('-').map(&:capitalize).join(' ')}",
             body: "#{File.read(recipe).gsub('\"', '\\\"')}"
         }
     end
+%>
 
+recipes = <%= recipes.to_json %>;
+
+lr = lunr.Index.load(
+<%= 
     lunr = File.expand_path('../../../_lib/javascripts/lunr.js', __FILE__)
     context = ExecJS.compile(File.read(lunr))
+    
     context.eval(<<-JS)
         (function() {
             var recipes = #{recipes.to_json}
@@ -65,8 +60,10 @@ ready(function () {
         var searchValue = searchInput.value.trim();
         
         if (searchValue === "") {
-            autocompleteView.parentNode.removeChild(autocompleteView);
-            autocompleteView = undefined;
+            if (autocompleteView !== undefined) {
+                autocompleteView.parentNode.removeChild(autocompleteView);
+                autocompleteView = undefined;
+            }
         } else {
             results = lr.search(searchValue).map(function(sv) {
                 return recipes[parseInt(sv.ref)];

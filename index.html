@@ -18,7 +18,7 @@ layout: application
         <a href="/recipes">recipes</a>
     </nav>
     
-    {% assign allthethings = site.posts | concat:site.recipes | sort | reverse %}
+    {% assign allthethings = site.posts | concat:site.recipes | sort: 'date' | reverse %}
 
     {% for update in allthethings limit:10 %}
         {% capture current_month %}{{update.date | date: "%B %Y"}}{% endcapture %}
