@@ -52,3 +52,7 @@ Directions:
 Mix cornflour and water. Set aside. This is used for sealing the wonton wrappers. Mix jalapeños with cream cheese and salt. Take one wonton wrapper and fill it with about 2 tsp of jalapeño cream cheese mixture. Dip a finger in cornflour mixture and run it across the wrapper. Fold to make a triangle or desired shape. Gently press out any air pockets from the inside to avoid it the wontons from bursting while frying. Deep fry till golden brown.
 Keep a good eye on the wontons while frying. They tend to get bubbly inside even with pressing out air pockets. You can bake these, but I tried it out at 200°C for 10 minutes and it was not as nice as the fried ones.
 Enjoy!
+
+- [Red Velvet Chocolate Chip Cookies](https://www.reddit.com/r/food/comments/3hu7tb/red_velvet_chocolate_chip_cookies/), [Source](http://sallysbakingaddiction.com/2013/12/13/red-velvet-chocolate-chip-cookies/)
+
+- [Blueberry cupcakes with blueberry cream cheese frosting](https://www.reddit.com/r/food/comments/3hq94v/blueberry_cupcakes_with_blueberry_cream_cheese/), [Source](http://stlcooks.com/2013/06/blueberry-cupcakes-with-blueberry-cream-cheese-frosting/)
