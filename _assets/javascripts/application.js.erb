@@ -3,6 +3,7 @@
 //= require setup
 //
 //= require_tree ./templates
+//= require autocomplete
 
 <% recipes = Dir['_recipes/*.mdown'].each_with_index.map do |recipe, i|
         {
@@ -40,9 +41,6 @@ lr = lunr.Index.load(
 %>
 );
 
-function render(template, locals) {
-    return templates[template](locals);
-}
 
 function ready(fn) {
   if (document.readyState != 'loading'){
@@ -53,38 +51,14 @@ function ready(fn) {
 }
 
 ready(function () {
-    var autocompleteView;
-    var searchInput = document.querySelector('input[type=search]');
     
-    searchInput.addEventListener('keyup', function (e) {
-        var searchValue = searchInput.value.trim();
-        
-        if (searchValue === "") {
-            if (autocompleteView !== undefined) {
-                autocompleteView.parentNode.removeChild(autocompleteView);
-                autocompleteView = undefined;
-            }
-        } else {
-            results = lr.search(searchValue).map(function(sv) {
+    new Autocomplete(document.querySelector('input[type=search]'), {
+        query: function (input, callback) {
+            var results = lr.search(input).map(function(sv) {
                 return recipes[parseInt(sv.ref)];
             });
-            
-            if (autocompleteView) {
-                autocompleteView.children[0].innerHTML = render('autocomplete/results', {results: results});
-            } else if (results.length > 0) {
-                var box = searchInput.getBoundingClientRect();
-                
-                autocompleteView = document.createElement('div');
-                autocompleteView.className = 'autocomplete-container';
-                autocompleteView.style.top = box.top + 1 + box.height + 'px';
-                autocompleteView.innerHTML = render('autocomplete', {results: results});
-                autocompleteView.children[0].style.left = box.left + 'px';
-                autocompleteView.children[0].style.width = box.width + 'px';
-                autocompleteView.children[0].style.paddingLeft = window.getComputedStyle(searchInput, null).getPropertyValue('padding-left');
-                
-                document.body.appendChild(autocompleteView);
-            }
-
+            callback(results);
         }
     });
-})
+    
+});
