@@ -58,6 +58,9 @@ ready(function () {
                 return recipes[parseInt(sv.ref)];
             });
             callback(results);
+        },
+        onSelect: function (result) {
+            location.href = result.url;
         }
     });
     
