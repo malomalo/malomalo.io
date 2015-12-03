@@ -841,6 +841,8 @@ main.recipe p {
         width: 30px;
         font-weight: bold;
         text-align: center; }
+      .autocomplete > ul li.highlighted {
+        color: #8DC23A; }
 
 footer {
   max-width: 960px;
